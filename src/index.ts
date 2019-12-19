@@ -21,7 +21,16 @@ const reset = () => {
     Matter.World.clear(world, false);
     gameState.bird = Bird(canvas.width/2, canvas.height/2);
     Matter.World.add(world, gameState.bird.body);
-}
+};
+
+setInterval(() => {
+    // Check if our bird's altitude is within the limits.
+    const y = gameState.bird.body.position.y;
+
+    if (y > canvas.height * 1.2 || y < canvas.height * -0.2) {
+        reset();
+    }
+}, 50);
 
 reset();
 
