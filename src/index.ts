@@ -51,18 +51,18 @@ setInterval(() => {
         });
     }
 
-    if (pipeSpawning == 50) {
+    if (pipeSpawning == 60) {
         pipeSpawning = 0;
 
         const top = rand(0, 2);
         let y = top ? 0 : canvas.height/2;
-        let height = rand(6, 12);
+        let height = rand(6, 11);
         
         if (!top) {
             y -= (height - 10) * boxWidth;
         }
 
-        const pipe = Pipe(canvas.width - boxWidth, y, 5, height);
+        const pipe = Pipe(canvas.width - boxWidth, y, 3, height);
         gameState.pipes.push(pipe);
         Matter.World.add(world, pipe.body);
     }
@@ -71,13 +71,13 @@ setInterval(() => {
 reset();
 
 engine.world.gravity.x = 0;
-engine.world.gravity.y = 0.5;
+engine.world.gravity.y = 1.0;
 Matter.Runner.run(runner, engine);
 
 beginDrawing(ctx, gameState, canvas.width, canvas.height);
 
 enableInput(canvas, () => {
-    Matter.Body.applyForce(gameState.bird.body, gameState.bird.body.position, { x: 0, y: -0.01 });
+    Matter.Body.applyForce(gameState.bird.body, gameState.bird.body.position, { x: 0, y: -0.02 });
 });
 
 document.addEventListener('gesturestart', (e) => {
