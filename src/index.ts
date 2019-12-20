@@ -6,6 +6,8 @@ import beginDrawing from './functions/beginDrawing';
 
 import { GameState } from './Types';
 import Bird from './drawables/Bird';
+import Pipe from './drawables/Pipe';
+import { boxWidth } from './constants';
 
 const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
@@ -20,8 +22,12 @@ const gameState: GameState = {
 const reset = () => {
     Matter.World.clear(world, false);
     gameState.bird = Bird(canvas.width/2, canvas.height/2);
+    gameState.pipes = [];
+    pipeSpawning = 0;
     Matter.World.add(world, gameState.bird.body);
 };
+
+const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
 
 setInterval(() => {
     // Check if our bird's altitude is within the limits.
@@ -31,6 +37,36 @@ setInterval(() => {
         reset();
     }
 }, 50);
+
+let pipeSpawning = 0;
+setInterval(() => {
+    pipeSpawning++;
+
+    for (let pipe of gameState.pipes) {
+        const pos = pipe.body.position;
+
+        Matter.Body.setPosition(pipe.body, {
+            x: pos.x - 10,
+            y: pos.y,
+        });
+    }
+
+    if (pipeSpawning == 50) {
+        pipeSpawning = 0;
+
+        const top = rand(0, 2);
+        let y = top ? 0 : canvas.height/2;
+        let height = rand(6, 12);
+        
+        if (!top) {
+            y -= (height - 10) * boxWidth;
+        }
+
+        const pipe = Pipe(canvas.width - boxWidth, y, 5, height);
+        gameState.pipes.push(pipe);
+        Matter.World.add(world, pipe.body);
+    }
+}, 16.667);
 
 reset();
 
