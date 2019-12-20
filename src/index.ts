@@ -8,6 +8,7 @@ import { GameState } from './Types';
 import Bird from './drawables/Bird';
 import Pipe from './drawables/Pipe';
 import { boxWidth } from './constants';
+import detectCollisions from './functions/detectCollisions';
 
 const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
@@ -78,6 +79,10 @@ beginDrawing(ctx, gameState, canvas.width, canvas.height);
 
 enableInput(canvas, () => {
     Matter.Body.applyForce(gameState.bird.body, gameState.bird.body.position, { x: 0, y: -0.02 });
+});
+
+detectCollisions(engine, gameState, () => {
+    reset();
 });
 
 document.addEventListener('gesturestart', (e) => {
