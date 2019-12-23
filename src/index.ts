@@ -55,17 +55,17 @@ setInterval(() => {
     if (pipeSpawning == 90) {
         pipeSpawning = 0;
 
-        const top = rand(0, 2);
-        let y = top ? 0 : canvas.height/2;
         let height = rand(6, 11);
-        
-        if (!top) {
-            y -= (height - 10) * boxWidth;
-        }
+        let y1 = 0;
+        let y2 = (height + 5) * boxWidth;
 
-        const pipe = Pipe(canvas.width - boxWidth, y, 3, height);
-        gameState.pipes.push(pipe);
-        Matter.World.add(world, pipe.body);
+        const pipeTop = Pipe(canvas.width - boxWidth, y1, 3, height);
+        gameState.pipes.push(pipeTop);
+        Matter.World.add(world, pipeTop.body);
+
+        const pipeBottom = Pipe(canvas.width - boxWidth, y2, 3, 20);
+        gameState.pipes.push(pipeBottom);
+        Matter.World.add(world, pipeBottom.body);
     }
 }, 16.667);
 
