@@ -47,12 +47,12 @@ setInterval(() => {
         const pos = pipe.body.position;
 
         Matter.Body.setPosition(pipe.body, {
-            x: pos.x - 10,
+            x: pos.x - 7.5,
             y: pos.y,
         });
     }
 
-    if (pipeSpawning == 60) {
+    if (pipeSpawning == 90) {
         pipeSpawning = 0;
 
         const top = rand(0, 2);
@@ -72,13 +72,13 @@ setInterval(() => {
 reset();
 
 engine.world.gravity.x = 0;
-engine.world.gravity.y = 1.0;
+engine.world.gravity.y = 1.5;
 Matter.Runner.run(runner, engine);
 
 beginDrawing(ctx, gameState, canvas.width, canvas.height);
 
 enableInput(canvas, () => {
-    Matter.Body.applyForce(gameState.bird.body, gameState.bird.body.position, { x: 0, y: -0.02 });
+    Matter.Body.applyForce(gameState.bird.body, gameState.bird.body.position, { x: 0, y: -0.03 });
 });
 
 detectCollisions(engine, gameState, () => {
